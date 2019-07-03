@@ -1,0 +1,30 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}Request New Recipient List{% endblock %}
+{% block body %}
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<div class="center">
+					<div style="text-align: center">
+						<div style="display: inline-block; text-align: left;">
+							<a href="{{ url_for('admin.organization_assignment', id=organization.org_key) }}" class="btn btn-default btn-sm">
+							<i class="fa fa-chevron-left"></i>
+							Back
+							</a>
+						</div>
+						<h1> Request New Recipient List </h1>
+						<br/>
+						<p>
+							Please fill out this form as specifically as possible
+						</p>
+						<br/>
+						{{ wtf.quick_form(form) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

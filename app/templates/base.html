@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<title>{{ title }} | BeneAdmin Portal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}"/>
+<link href="https://fonts.google.com/specimen/Open+Sans" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/slider.css') }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<!-- Top menu on small screens -->
+<div id="grandparent-topnav">
+	<header class="w3-bar w3-top w3-white w3-xlarge">
+	  <a href="javascript:void(0)" id="menuButton" class="w3-bar-item w3-button w3-left" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+		<h1 class="w3-bar-item w3-wide" style="letter-spacing: -1px; font-size:30px;" font-family="Open Sans"><span style="color: #066491">Bene</span><span style="color: #595959">BAP</span></h1>
+		<div class="w3-dropdown-click w3-right" id="userbutton">
+			<button id="accountdropdown" onclick="drop()" class="btn" style="font-size:20px;color: #969696; top:50%;"><a style="color:#595959;"><i class="material-icons" style="font-size:20px; top:10%;vertical-align:middle;">person</i> <span style="font-size:14px;vertical-align:middle;">{{ current_user.username }}</span><i class="material-icons" style="font-size:17px;vertical-align:middle;">arrow_drop_down</i></a></button>
+			<div id="usermenu" class="w3-dropdown-content w3-bar-block w3-border" style="right:0">
+				<a href="{{ url_for('home.homepage') }}" class="w3-bar-item w3-button">Account</a>
+				<a href="{{ url_for('auth.logout') }}" class="w3-bar-item w3-button">Logout</a>
+			</div>
+		</div>
+	</header>	
+</div>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+	<div class="wrapper">
+	<!-- Sidebar/menu -->
+		{% if current_user.is_authenticated %}
+		{% if current_user.is_admin %}
+		<nav class="w3-sidebar w3-bar-block w3-collapse w3-top" id="mySidebar">
+		  <div class="w3-padding-32 w3-large w3-text-white">
+		{% if current_user.is_admin %}
+			<a href="{{ url_for('home.admin_dashboard') }}" class="w3-bar-item w3-button">Home</a>
+		{% endif %}
+		{% if current_user.role_id==1 %}<!-- BI Team role.id = 5 -->
+			<a href="{{ url_for('home.admin_dashboard') }}" class="w3-bar-item w3-button">Home</a>
+		{% endif %}
+		{% if current_user.role_id==2 %} <!-- Client role.id = 6 -->
+			<a href="{{ url_for('home.admin_dashboard') }}" class="w3-bar-item w3-button">Home</a>
+		{% endif %}
+			<a href="{{ url_for('dkron.dkron_job') }}" class="w3-bar-item w3-button">Dkron</a>
+			<a href="{{ url_for('api.api_request') }}" class="w3-bar-item w3-button">API</a>
+			<a href="{{ url_for('admin.list_organizations') }}" class="w3-bar-item w3-button">Organizations</a>
+			<a href="{{ url_for('admin.list_roles') }}" class="w3-bar-item w3-button">Permissions</a>
+			<a href="{{ url_for('admin.list_employees') }}" class="w3-bar-item w3-button">Employees</a>
+			<a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-left-align" style="color: #FFFFFF" id="myBtn">
+			  Base <i class="fa fa-caret-down"></i>
+			</a>
+			<div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+			  <a href="{{ url_for('admin.list_sources') }}" class="w3-bar-item w3-button">Sources</a>
+			  <a href="{{ url_for('admin.list_variables') }}" class="w3-bar-item w3-button">Variables</a>
+			  <a href="{{ url_for('admin.list_reports') }}" class="w3-bar-item w3-button">Reports</a>
+			  <a href="{{ url_for('admin.list_employees') }}" class="w3-bar-item w3-button">Report Recipients</a>
+			</div>
+			<a onclick="myAccFunc1()" href="javascript:void(0)" class="w3-button w3-block w3-left-align" style="color: #FFFFFF" id="myBtn2">
+			  Admin <i class="fa fa-caret-down"></i>
+			</a>
+			<div id="demoAcc1" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+			  <a href="{{ url_for('db_connections.list_db_connections') }}" class="w3-bar-item w3-button">DB Connections</a>
+			  
+			  <a href="{{ url_for('qlik_add.qlik_add_company') }}" class="w3-bar-item w3-button">Qlik Test Users</a>
+			</div>
+			  
+		  <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a>
+		{% endif %}
+		{% if current_user.role_id==1 %}<!-- BI Team role.id = 1 -->
+			<a href="{{ url_for('admin.list_departments') }}" class="w3-bar-item w3-button">Report Recipients</a>
+			<a href="{{ url_for('admin.list_departments') }}" class="w3-bar-item w3-button">Run Jobs</a>
+		{% endif %}
+		{% if current_user.role_id==2 %} <!-- Client role.id = 2 -->
+			<a href="{{ url_for('admin.list_departments') }}" class="w3-bar-item w3-button">Contact Info</a>
+			<a href="{{ url_for('admin.list_departments') }}" class="w3-bar-item w3-button">Other?</a>
+		{% endif %}
+			
+		{% else %}
+			<a href="{{ url_for('home.homepage') }}" class="w3-bar-item w3-button">Home</a>
+			<a href="{{ url_for('auth.login') }}" class="w3-bar-item w3-button">Login</a>
+		{% endif %}
+		  </div>
+		</nav>	
+		<body>
+		{% block body %}
+		{% endblock %}
+			<div class="push"></div>
+			<script>
+			// Accordion 
+			function myAccFunc() {
+			  var x = document.getElementById("demoAcc");
+			  if (x.className.indexOf("w3-show") == -1) {
+				x.className += " w3-show";
+			  } else {
+				x.className = x.className.replace(" w3-show", "");
+			  }
+			}
+				
+		   // Accordion 
+			function myAccFunc1() {
+			  var x = document.getElementById("demoAcc1");
+			  if (x.className.indexOf("w3-show") == -1) {
+				x.className += " w3-show";
+			  } else {
+				x.className = x.className.replace(" w3-show", "");
+			  }
+			}
+
+			// Click on the "Jeans" link on page load to open the accordion for demo purposes
+			document.getElementById("myBtn").click();
+
+			var opened = false;
+
+			// Open and close sidebar
+			function w3_open() {
+				if(!opened){
+				  document.getElementById("mySidebar").className += " opened-bar";
+				  document.getElementById("myOverlay").style.display = "block";
+				  opened = true;
+				}
+				else{
+					w3_close();
+				}
+			}
+
+			function w3_close() {
+			  document.getElementById("mySidebar").classList.remove("opened-bar");
+			  document.getElementById("myOverlay").style.display = "none";
+			  opened = false;
+			}
+			
+			function drop() {
+  				var x = document.getElementById("usermenu");
+  				if (x.className.indexOf("w3-show") == -1) {  
+    				x.className += " w3-show";
+  				} else { 
+    				x.className = x.className.replace(" w3-show", "");
+  					}
+				}
+				
+			</script>
+		</body>
+	</div>
+</html>

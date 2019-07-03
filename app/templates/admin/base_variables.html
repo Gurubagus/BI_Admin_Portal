@@ -1,0 +1,241 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Base Variables{% endblock %}
+{% block body %}
+<html lang="eng">
+<body>
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<br/>
+				{{ utils.flashed_messages() }}
+				<br/>
+				<div style="text-align: center">
+<!---------------------- Source Key Section ----------------------->	
+					<h1 style="text-align:center;">Sources</h1>
+					{% if source %}
+					<hr class="intro-divider">
+					<div class="center" align='center'>
+						<table class="w3-table w3-striped w3-bordered w3-hoverable" style="width: 90%">
+							<thead>
+								<tr>
+									<th> Source</th>	
+									{% if current_user.is_admin %}
+									<th> </th>
+									{% endif %}
+								</tr>
+							</thead>
+							<tbody>
+								{% for source in source %}
+								<tr class="w3-hover-light-blue">
+									<td>
+										{% if source.short_description %}
+										{{ source.short_description }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										<a href="{{ url_for('admin.delete_source', id=source.source_key) }}" 
+									   	onclick="return confirm_delete()">
+										<script type="text/javascript">
+											function confirm_delete() {
+												return confirm('Are you sure? There is no undoing this action.');
+											}
+										</script>
+										<i class="fa fa-trash"></i>
+										</a>
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					{% endif %}
+					<div style="text-align: center">
+						<a href="{{ url_for('admin.source_register') }}" class="btn btn-default btn-lg">
+						<i class="fa fa-plus"></i>
+						Add New Source
+						</a>
+					</div>
+				</div>
+<!---------------------- Variables Section ----------------------->
+				<h1 style="text-align:center;"><span style="color: #066491;">
+							{{ organization.short_name }}</span>'s <br /> Active Variables</h1>		
+				<hr class="intro-divider">
+				<div class="center">
+					<table class="table table-striped table-bordered" style="width: 100%">
+						<thead>
+							<tr>
+								<th> Description </th>
+								<th> Value </th>
+								<th> </th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for variable_values in variable_values %}
+							<tr>
+								<td> 
+									{% if variable_values.variable_description %}
+									{{ variable_values.variable_description }}
+									{% else %}
+									-
+									{% endif %}
+								</td>
+								<td>
+									{% if variable_values.var_value %}
+									{{ variable_values.var_value }}
+									{% else %}
+									-
+									{% endif %}
+								</td>
+								<td>
+									<a href="{{ url_for('admin.delete_variable', id=variable_values.org_key, var_id = variable_values.variable_id) }}" 
+									onclick="return confirm_delete()">
+									<script type="text/javascript">
+										function confirm_delete() {
+											return confirm('Are you sure? There is no undoing this action.');
+										}
+									</script>
+									<i class="fa fa-trash"></i>
+									</a>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>	
+					</table>
+				</div>
+				<div style="text-align: center">
+					<a href="{{ url_for('admin.assign_organizations', id=organization.org_key) }}" class="btn btn-default btn-lg">
+						<i class="fa fa-plus"></i>
+						Add New Variable
+					</a>
+				</div>
+<!---------------------- Reports Section ----------------------->
+				<h1 style="text-align:center;">Reports</h1>
+				{% if report %}
+				<hr class="intro-divider">
+				<div class="center">
+					<table class="table table-striped table-bordered" style="width: 100%">
+						<thead>
+							<tr>
+								<th> Report</th>	
+								<th> Description</th>	
+								{% if current_user.is_admin %}
+								<th> </th>
+								{% endif %}
+							</tr>
+						</thead>
+						<tbody>
+							{% for report in report %}
+							<tr>
+								<td>
+									{% if report.report_name %}
+									{{ report.report_name }}
+									{% else %}
+									-
+									{% endif %}
+								</td>
+								<td>
+									{% if report.report_description %}
+									{{ report.report_description }}
+									{% else %}
+									-
+									{% endif %}
+								</td>
+								<td>
+									<a href="{{ url_for('admin.delete_existing_report', id=report.report_id) }}" 
+									   onclick="return confirm_delete()">
+										<script type="text/javascript">
+											function confirm_delete() {
+												return confirm('Are you sure? There is no undoing this action.');
+											}
+										</script>
+										<i class="fa fa-trash"></i>
+									</a>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				{% endif %}
+				<div style="text-align: center">
+					<a href="{{ url_for('admin.report_register') }}" class="btn btn-default btn-lg">
+						<i class="fa fa-plus"></i>
+						Add New Report
+					</a>
+				</div>
+<!---------------------- List Section ----------------------->
+				<h1 style="text-align:center;"><br />Report Recipient Lists</h1>		
+					<hr class="intro-divider">
+				<div class="center">
+					<table class="table table-striped table-bordered" style="width: 100%">
+						<thead>
+							<tr>
+								<th> List </th>
+								<th> Members </th>
+								<th> Assign </th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for lists in lists %}
+							<tr>
+								<td>
+									{% if lists.email_description %}
+									{{ lists.email_description }}
+									{% else %}
+									-
+									{% endif %}
+								</td>
+								<td>
+									{% if lists.email %}
+									{{ lists.email }}
+									{% else %}
+									-
+									{% endif %}
+								</td>
+								<td>
+									<a href="{{ url_for('admin.assign_contacts_to_list', id=organization.org_key) }}">
+										<i class="fa fa-align-left"></i>
+									</a>
+								</td>
+								<td>
+									<a href="{{ url_for('admin.delete_contact', id=contact.org_key, var_id = variable_values.variable_id) }}" 
+									   onclick="return confirm_delete()">
+										<script type="text/javascript">
+										function confirm_delete() {
+												return confirm('Are you sure? There is no undoing this action.');
+											}
+										</script>
+										<i class="fa fa-trash"></i>
+									</a>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>	
+					</table>
+				</div>
+					<div style="text-align: center">
+						<a href="{{ url_for('admin.create_new_list', id=organization.org_key) }}" class="btn btn-default btn-lg">
+						<i class="fa fa-plus"></i>
+						New List
+						</a>
+					</div>
+					<div style="text-align: center">
+						<a href="{{ url_for('admin.request_new_list', id=organization.org_key) }}" class="btn btn-default btn-lg">
+						<i class="fa fa-plus"></i>
+						Request New List
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+{% endblock %}
+
+

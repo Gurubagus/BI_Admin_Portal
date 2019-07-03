@@ -1,0 +1,74 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block body %}
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<br/>
+				{{ utils.flashed_messages() }}
+				<br/>
+				<div style="text-align: center">
+					<h1 style="text-align:center;">Reports</h1>
+					{% if report %}
+					<hr class="intro-divider">
+					<div class="center" align='center'>
+						<table class="w3-table w3-striped w3-bordered w3-hoverable" style="width: 90%">
+							<thead>
+								<tr>
+									<th> Report</th>	
+									<th> Description</th>	
+									{% if current_user.is_admin %}
+									<th> </th>
+									{% endif %}
+								</tr>
+							</thead>
+							<tbody>
+								{% for report in report %}
+								<tr class="w3-hover-light-blue">
+									<td>
+										{% if report.report_name %}
+										{{ report.report_name }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										{% if report.report_description %}
+										{{ report.report_description }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										<a href="{{ url_for('admin.delete_existing_report', id=report.report_id) }}" 
+						  			   onclick="return confirm_delete()">
+										<script type="text/javascript">
+										function confirm_delete() {
+										return confirm('Are you sure? There is no undoing this action.');
+										}
+										</script>
+										<i class="fa fa-trash"></i>				
+										</a>
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					{% endif %}
+					<div style="text-align: center">
+						<a href="{{ url_for('admin.report_register') }}" class="btn btn-default btn-lg">
+						<i class="fa fa-plus"></i>
+						Add New Report
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+

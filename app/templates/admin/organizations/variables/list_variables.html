@@ -1,0 +1,89 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Variables{% endblock %}
+{% block body %}
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<div style="text-align: center">
+					<div style="display: inline-block; text-align: left;">
+						<br/>
+						{{ utils.flashed_messages() }}
+						<br/>
+						<h1 style="text-align:center;">Variables</h1>
+						{% if variables %}
+						<hr class="intro-divider">
+						<div class="center">
+							<table class="w3-table w3-striped w3-bordered w3-hoverable" style="width: 90%">
+								<thead>
+									<tr>
+										<th> ID </th>
+										<th> Variable </th>
+										<th> Description </th>
+										<th> Type </th>
+										<th> Default </th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for variable in variables %}
+									<tr class="w3-hover-light-blue">
+										<td> {{ variables.variable_id }}</td>
+										<td>
+											{% if variables.variable_name %}
+											{{ variables.variable_name }}
+											{% else %}
+											-
+											{% endif %}
+										</td>
+										<td>
+											{% if variables.variable_description %}
+											{{ variables.variable_description }}
+											{% else %}
+											-
+											{% endif %}
+										</td>
+										<td>
+											{% if variables.variable_type %}
+											{{ variables.variable_type }}
+											{% else %}
+											-
+											{% endif %}
+										</td>
+										<td>
+											{% if variables.variable_default %}
+											{{ variables.variable_default }}
+											{% else %}
+											-
+											{% endif %}
+										</td>
+										<td>
+											<a href="{{ url_for('admin.delete_base_variable, id=variables.variable_id) }}" 
+										   onclick="return confirm_delete()">
+											<script type="text/javascript">
+											function confirm_delete() {
+											return confirm('Are you sure? There is no undoing this action.');
+											}
+											</script>
+											<i class="fa fa-trash"></i> Delete			
+											</a>
+										</td>
+									</tr>		
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+						{% endif %}
+						<div style="text-align: center">
+							<a href="{{ url_for('auth.variable_register') }}" class="btn btn-default btn-lg">
+							<i class="fa fa-plus"></i>
+							Add New Variable
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

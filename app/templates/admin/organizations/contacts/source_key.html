@@ -1,0 +1,23 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}Create New Source{% endblock %}
+{% block body %}
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<div class="center">
+				<div style="text-align: center">
+				<a href="{{ url_for('admin.organization_assignment', id=organization.org_key) }}" class="btn btn-default btn-sm">
+				 <i class="fa fa-chevron-left"></i>
+							Back
+						</a>
+				</div>
+					<h1> Add Source Key </h1>
+					{{ wtf.quick_form(form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Organizations{% endblock %}
+{% block body %}
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<br/>
+				{{ utils.flashed_messages() }}
+				<br/>
+				<div style="text-align: center">
+					<div style="text-align: center">
+						<h1 style="text-align:center;">Organizations</h1>
+						{% if organizations %}
+						<hr class="intro-divider">
+						<div class="center" align='center'>
+							<table class="w3-table w3-striped w3-bordered w3-hoverable" style="width: 90%">
+								<thead>
+									<tr>
+										{% if current_user.is_admin %}
+										<th> Key </th>
+										{% endif %}
+										<th> Company </th>
+										<th> Description </th>
+										<th> Assign </th>
+										{% if current_user.is_admin %}
+										<th> </th>
+										{% endif %}
+									</tr>
+								</thead>
+								<tbody>
+									{% for organization in organizations %}
+									<tr class="w3-hover-light-blue">
+										<td> {{ organization.org_key }} </td>
+										<td>
+											{% if organization.short_name %}
+											{{ organization.short_name }}
+											{% else %}
+											-
+											{% endif %}
+										</td>
+										<td>
+											{% if organization.description %}
+											{{ organization.description }}
+											{% else %}
+											-
+											{% endif %}
+										<td>
+											<a href="{{ url_for('admin.organization_assignment', id=organization.org_key) }}">
+											<i class="fa fa-align-left"></i>
+											</a>
+										</td>
+										<td>
+											<a href="{{ url_for('admin.delete_organization', id=organization.org_key) }}" 
+											  onclick="return confirm_delete()">
+											<script type="text/javascript">
+												function confirm_delete() {
+												return confirm('Are you sure? There is no undoing this action.');
+												}
+											</script>
+											<i class="fa fa-trash"></i>	
+											</a>
+										</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+						{% endif %}
+						<div style="text-align: center">
+							<a href="{{ url_for('admin.organization_register') }}" class="btn btn-default btn-lg">
+							<i class="fa fa-plus"></i>
+							Add New Organization
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

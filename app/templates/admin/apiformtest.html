@@ -1,0 +1,65 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}Request New Recipient List{% endblock %}
+{% block body %}
+
+<html>
+<head>
+<br/>
+{{ utils.flashed_messages() }}
+<br/>
+<title>API Requests</title>
+<script type="text/javascript">
+function setForm(value) {
+
+    if(value == 'form1'){
+                document.getElementById('form1').style = 'display:block;';
+                document.getElementById('form2').style = 'display:none;';
+				document.getElementById('form3').style = 'display:none;';
+            }
+            else if (value == 'form2'){
+
+                document.getElementById('form2').style = 'display:block;';
+                document.getElementById('form1').style = 'display:none;';
+				document.getElementById('form3').style = 'display:none;';
+            }
+	
+		 	else if (value == 'form3'){
+
+                document.getElementById('form3').style = 'display:block;';
+                document.getElementById('form1').style = 'display:none;';
+				document.getElementById('form2').style = 'display:none;';
+            }
+
+}
+</script>
+</head>
+	<label>Select Request</label>
+<select id="select1" onchange="setForm(this.value)">
+<option value="form1">Get Company Info</option>
+<option value="form2">XRM Info</option>
+<option value="form3">File Copier</option>
+</select>
+<body>
+	<div id="form1">
+		<label>Get Company Info</label>
+		<form>
+			{{ wtf.quick_form(form1) }}
+		</form><hr>
+	</div>
+	<div  id="form2" style="display: none">
+		<label>XRM Info</label>
+		<form name="secondform" action="">
+			{{ wtf.quick_form(form2) }}
+		</form><hr>
+	</div>
+	<div  id="form3" style="display: none">
+		<label>File Copier</label>
+		<form name="thirdform" action="">
+			{{ wtf.quick_form(form3) }}
+		</form><hr>
+	</div>
+</body>
+</html>
+{% endblock %}

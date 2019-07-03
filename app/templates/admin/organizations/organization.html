@@ -1,0 +1,33 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}Assign Organization Variables{% endblock %}
+{% block body %}
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<div class="center">
+					<div style="text-align: center">
+						<div style="display: inline-block; text-align: left;">	
+							<a href="{{ url_for('admin.organization_assignment', id=organization.org_key) }}" class="btn btn-default btn-sm">
+				 			<i class="fa fa-chevron-left"></i>
+							Back
+							</a>
+						</div>
+						<h1> Assign Variables </h1>
+						<br/>
+						<p>
+						Select Variables and their Values to assign to
+						<span style="color: #066491;">
+							{{ organization.short_name }}
+						</span>
+						</p>
+						<br/>
+						{{ wtf.quick_form(form) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

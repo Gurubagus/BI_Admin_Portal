@@ -1,0 +1,76 @@
+body {
+    font-family: 'Open Sans', sans-serif !important;
+    background: #fafafa;
+}
+
+
+header.w3-bar.w3-top{
+	position:unset;
+	z-index:3;
+	box-shadow:2px 2px 3px rgba(0,0,0,0.1);
+}
+
+#grandparent-topnav{
+	position:fixed;
+	width: 100%;
+	z-index:3;
+}
+nav.w3-sidebar.w3-collapse#mySidebar{
+	display:none !important;
+}
+
+nav.w3-sidebar.w3-collapse.opened-bar#mySidebar{
+	z-index:3;
+	width:220px;
+	color:#ffffff;
+	background-color:#4DBDBD;
+	position:fixed !important;
+	height:100vh;
+	display:block !important;
+	top:62px !important;
+	box-shadow:5px 1px 9px rgba(0,0,0,0.1);
+}
+
+#menuButton{
+	padding:13px 16px;
+	
+}
+#accountdropdown{
+	padding:13px 16px;
+	border: none;
+	background: none;
+}
+
+.content-section{
+	padding-top:64px;
+}
+#usermenu{
+	position: absolute;
+	top: 90%;
+}
+
+.w3-sidebar a, body,h1,h2,h3,h4,h5,h6,.w3-wide  {font-family: "Open Sans", sans-serif;margin:0;}
+
+@media (min-width: 993px){
+	.wrapper{
+		display:block;
+		vertical-align:top;
+		height:100vh;
+	}
+	.content-section{
+		display:block;
+		vertical-align:top;
+		padding-top:64px;
+	}
+}
+
+.wrapper{
+	position:relative;
+}
+h1 {
+	letter-spacing: -1px
+}
+
+.benebap{
+	
+}

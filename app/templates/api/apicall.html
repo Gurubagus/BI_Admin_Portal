@@ -1,0 +1,74 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}Request New Recipient List{% endblock %}
+{% block body %}
+<script type="text/javascript">
+function setForm(value) {
+
+	if(value == 'form1'){
+				document.getElementById('form1').style = 'display:block;';
+				document.getElementById('form2').style = 'display:none;';
+				document.getElementById('form3').style = 'display:none;';
+			}
+			else if (value == 'form2'){
+
+				document.getElementById('form2').style = 'display:block;';
+				document.getElementById('form1').style = 'display:none;';
+				document.getElementById('form3').style = 'display:none;';
+			}
+
+			else if (value == 'form3'){
+
+				document.getElementById('form3').style = 'display:block;';
+				document.getElementById('form1').style = 'display:none;';
+				document.getElementById('form2').style = 'display:none;';
+			}
+
+}
+</script>
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<br/>
+				{{ utils.flashed_messages() }}
+				<br/>
+				<div style="text-align: center">
+					<div style="display: inline-block; text-align: left;" >
+						<label>Select Request</label>
+						<select id="select1" onchange="setForm(this.value)">
+							<option value="form1">Get Company Info</option>
+							<option value="form2">XRM Info</option>
+							<option value="form3">File Copier</option>
+						</select>
+						<br/>
+						<div id="form1" style="display: block">
+							<form name="get_company" action="{{ url_for('api.api_request') }}" method="post">
+								{{ wtf.quick_form(form1) }}
+							</form><hr>
+						</div>
+						<div id="form2" style="display: none">
+							<form name="xrm" action="{{ url_for('api.api_request') }}" method="post">
+								{{ wtf.quick_form(form2) }}
+							</form><hr>
+						</div>
+						<div  id="form3" style="display: none">
+							<form name="thirdform" action="{{ url_for('api.api_request') }}" method="post">
+								{{ wtf.quick_form(form3) }}
+							</form><hr>
+						</div> 
+							<br/>
+					</div>
+					<br/>
+					<div class="w3-display-container" style="display: inline-block; text-align: left; height:300px; color:#fafafa;" style="display: block">
+						<div class="w3-display-center" style="width:700px;"><font color="black">{{ t }}</font></div>
+					</div>	
+						
+					<br/>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

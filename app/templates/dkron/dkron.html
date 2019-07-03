@@ -1,0 +1,128 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}Dkron Job Creation{% endblock %}
+{% block body %}
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<br/>
+				{{ utils.flashed_messages() }}
+				<br/>
+				<div style="text-align: center">
+					<div style="display: inline-block; text-align: left;">	
+						<div class="center" align='center'>
+							<font color=#066491>
+							<div onclick="window.open('http://dkron.beneservices.com:8080/dashboard/','mywindow');" style="cursor: pointer;"> -- Dkron WebUI -- </div>
+							</font>
+							<h1> Dkron Jobs </h1>
+							<table class="w3-table w3-striped w3-bordered w3-hoverable" style="width: 90%">
+							<thead>
+								<tr>
+									<th>Job</th>	
+									<th>Schedule</th>	
+									<th>.sh</th>
+									<th>Creator</th>
+									<th>Timezone</th>
+									<th>Active</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for dkron in dkron %}
+								<tr class="w3-hover-light-blue">
+									<td>
+										{% if dkron.name %}
+										{{ dkron.name }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										{% if dkron.schedule %}
+										{{ dkron.schedule }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td style="word-wrap: break-word; max-width: 290px;">
+										{% if dkron.exec_command %}
+										{{ dkron.exec_command }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										{% if dkron.owner %}
+										{{ dkron.owner }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										{% if dkron.timezone %}
+										{{ dkron.timezone }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									{% if dkron.disabled == True %}
+									<td bgcolor= #FF0000>
+										<div style="text-align: center">
+										<a href="{{ url_for('dkron.activate_dkron_job', name=dkron.name) }}" 
+											onclick="return confirm_activate()"/>
+											<script type="text/javascript">
+											function confirm_activate() {
+												return confirm('Are you sure? This will ACTIVATE this job.');
+											}
+											</script>	
+											<i class="fa fa-times"></i></div>
+									{% else %}
+									<td bgcolor= #228B22>
+										<div style="text-align: center">
+										<a href="{{ url_for('dkron.deactivate_dkron_job', name=dkron.name) }}" 
+											onclick="return confirm_deactivate()"/>
+											<script type="text/javascript">
+											function confirm_deactivate() {
+												return confirm('Are you sure? This will DEACTIVATE this job.');
+											}
+											</script>	
+										<i class="fa fa-check" aria-hidden="true"></i></div>	
+									{% endif %}	
+									</td>
+									<td>
+										<a href="{{ url_for('dkron.delete_dkron', id=dkron.name) }}" 
+										onclick="return confirm_delete()">
+										<script type="text/javascript">
+										function confirm_delete() {
+											return confirm('Are you sure? There is no undoing this action.');
+										}
+										</script>
+										<i class="fa fa-trash"></i>	
+										</a>
+									</td>
+								</tr>				
+								{% endfor %}
+							</tbody>
+						</table>
+							<div class="center">
+								<h1> Create/Edit </h1>
+								<font color=#066491>
+								<div onclick="window.open('https://dkron.io/usage/cron-spec/','mywindow');" style="cursor: pointer;">Cron Schedule Syntax</div>
+								</font>
+								<br/>
+								<form class="form form-horizontal" action="{{ url_for('dkron.upload_file') }}" method="POST" role="form" enctype=multipart/form-data>
+									<input type = "file" name = "file" />
+									{{ wtf.quick_form(form) }}
+								</form>
+								<br/>
+							</div>	
+						</div>		
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

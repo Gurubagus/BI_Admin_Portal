@@ -1,0 +1,32 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}Create Test User{% endblock %}
+{% block body %}
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<div style="text-align: center">
+					<br/>
+					{{ utils.flashed_messages() }}
+					<br/>
+					<div style="display: inline-block; text-align: left;" >
+						<h1>Create Qlik Test User</h1>
+						<br/>
+						<div id="form" style="display: block;">
+							<form name="ChooseCompany" action="{{ url_for('qlik_add.qlik_add_company') }}" method="post">
+								{{ wtf.quick_form(form) }}
+							</form><hr>
+						</div>
+							<br/>
+					</div>
+					<br/>
+						
+					<br/>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

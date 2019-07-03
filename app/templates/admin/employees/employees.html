@@ -1,0 +1,90 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Employees{% endblock %}
+{% block body %}
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<br/>
+				{{ utils.flashed_messages() }}
+				<br/>
+				<div style="text-align: center">
+					<div style="display: inline-block; text-align: left;">
+						{% if employees %}
+						<h1> Employees </h1>
+						<hr class="intro-divider">
+						<div class="center" align='center'>
+							<table class="w3-table w3-striped w3-bordered w3-hoverable">
+								<thead>
+									<tr>
+										<th width="30%"> Name </th>
+										<th width="20%"> Department </th>
+										<th width="20%"> Permission </th>
+										<th width="15%"> Assign </th>
+										<th width="15%"> Delete </th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for employee in employees %}
+									{% if employee.is_admin %}
+									<tr class="w3-hover-light-blue">
+										<td> <i class="fa fa-key"></i> Admin </td>
+										<td> N/A </td>
+										<td> N/A </td>
+										<td> N/A </td>
+									</tr>
+									{% else %}
+									<tr>
+										<td> {{ employee.first_name }} {{ employee.last_name }} </td>
+										<td>
+											{% if employee.department %}
+											{{ employee.department.name }}
+											{% else %}
+											-
+											{% endif %}
+										</td>
+										<td>
+											{% if employee.role %}
+											{{ employee.role.name }}
+											{% else %}
+											-
+											{% endif %}
+										</td>
+										<td>
+											<a href="{{ url_for('admin.assign_employee', id=employee.id) }}">
+												<i class="fa fa-user-plus"></i> Edit
+											</a>
+										</td>
+										<td>
+											<a href="{{ url_for('admin.delete_employee', id=employee.id) }}" 
+											   onclick="return confirm_delete()">
+												<script type="text/javascript">
+													function confirm_delete() {
+														return confirm('Are you sure? There is no undoing this action.');
+													}
+												</script>
+												<i class="fa fa-trash"></i> Delete
+
+											</a>
+										</td>
+									</tr>
+									{% endif %}
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+							{% endif %}
+							<div style="text-align: center">
+							<a href="{{ url_for('auth.register') }}" class="btn btn-default btn-lg">
+							<i class="fa fa-plus"></i>
+							Add New Employee
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

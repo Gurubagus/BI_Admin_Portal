@@ -1,0 +1,143 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}DB Connections{% endblock %}
+{% block body %}
+<div class="content-section">
+	<div class="outer">
+		<div class="middle">
+			<div class="inner">
+				<br/>
+				{{ utils.flashed_messages() }}
+				<br/>
+				<div style="text-align: center">
+					<h1 style="text-align:center;">DB Connections</h1>
+					<hr class="intro-divider">
+					<div class="center" align='center'>
+						<table class="w3-table w3-striped w3-bordered w3-hoverable" style="width: 90%">
+							<thead>
+								<tr>
+									<th>Name</th>	
+									<th>Server</th>	
+									<th>Port</th>
+									<th>Database</th>
+									<th>Login</th>
+									<th>Password</th>
+									<th>Additional Params</th>
+									<th>System Type</th>
+									<th>Active</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for dbcon in dbcon %}
+								<tr class="w3-hover-light-blue">
+									<td>
+										{% if dbcon.name %}
+										{{ dbcon.name }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										{% if dbcon.server %}
+										{{ dbcon.server }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										{% if dbcon.port %}
+										{{ dbcon.port }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										{% if dbcon.database %}
+										{{ dbcon.database }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										{% if dbcon.login %}
+										{{ dbcon.login }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										{% if dbcon.password %}
+										{{ dbcon.password }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										{% if dbcon.additionalparams %}
+										{{ dbcon.additionalparams }}
+										{% else %}
+										-
+										{% endif %}
+									</td>
+									<td>
+										{% if dbcon.system_type %}
+										{{ dbcon.system_type }}
+										{% else %}
+										-
+										{% endif %}
+									</td>		
+									{% if dbcon.active == True %}
+										<td bgcolor= #228B22>
+										<div style="text-align: center">
+										<a href="{{ url_for('db_connections.deactivate_db_connections', name=dbcon.name) }}" 
+											onclick="return confirm_deactivate()"/>
+											<script type="text/javascript">
+											function confirm_deactivate() {
+												return confirm('Are you sure? This will DEACTIVATE this connection.');
+											}
+											</script>	
+										<i class="fa fa-check" aria-hidden="true"></i></div>	
+									{% else %}
+										<td bgcolor= #FF0000>
+										<div style="text-align: center">
+										<a href="{{ url_for('db_connections.activate_db_connections', name=dbcon.name) }}" 
+											onclick="return confirm_activate()"/>
+											<script type="text/javascript">
+											function confirm_activate() {
+												return confirm('Are you sure? This will ACTIVATE this connection.');
+											}
+											</script>	
+										<i class="fa fa-times"></i></div>		
+									{% endif %}	
+									</td>
+									<td>
+										<a href="{{ url_for('db_connections.delete_db_connections', name=dbcon.name) }}" 
+										onclick="return confirm_delete()">
+										<script type="text/javascript">
+										function confirm_delete() {
+											return confirm('Are you sure? There is no undoing this action.');
+										}
+										</script>
+										<i class="fa fa-trash"></i>	
+										</a>
+									</td>
+								</tr>				
+								{% endfor %}
+							</tbody>
+						</table>
+						</div>
+							<div style="text-align: center">
+								<a href="{{ url_for('db_connections.add_db_connections') }}" class="btn btn-default btn-lg">
+								<i class="fa fa-plus"></i>
+								New Connection
+								</a>
+							</div>
+						</div>		
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
